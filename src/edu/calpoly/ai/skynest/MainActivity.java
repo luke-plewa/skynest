@@ -3,6 +3,7 @@ package edu.calpoly.ai.skynest;
 import java.util.ArrayList;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -16,9 +17,13 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Menu;
 
 public class MainActivity extends SherlockFragmentActivity implements LocationListener {
@@ -112,6 +117,23 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			    .radius(CIRCLE_RADIUS) // In meters
 				.fillColor(Color.CYAN)
 				.strokeColor(Color.BLUE));
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+		Intent i;
+		Uri u;
+		switch(item.getItemId()){
+			case R.id.set_work:
+				setWorkLocation(m_locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+				break;
+			case R.id.set_home:
+				setHomeLocation(m_locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+		return true;
 	}
 
 	@Override

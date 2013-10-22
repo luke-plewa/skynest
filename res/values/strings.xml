@@ -4,5 +4,7 @@
     <string name="app_name">SkyNest</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="set_home">Set Home Location</string>
+    <string name="set_work">Set Work Location</string>
 
 </resources>

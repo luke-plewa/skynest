@@ -5,5 +5,13 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    
+    <item android:id="@+id/set_work" 
+        android:title="@string/set_work" 
+        android:showAsAction="ifRoom" ></item>
+    
+    <item android:id="@+id/set_home" 
+        android:title="@string/set_home" 
+        android:showAsAction="ifRoom" ></item>
 
 </menu>
