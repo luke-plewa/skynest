@@ -37,6 +37,10 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 
 	/** The radius of a Circle drawn on the map, in meters. */
 	private static final int CIRCLE_RADIUS = 1;
+	
+	/** Markers for the home and work locations */
+	private Marker home;
+	private Marker work;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,28 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		m_arrPathPoints.add(l);
 		m_vwMap.animateCamera(CameraUpdateFactory.newLatLng(l));
 		m_pathLine.setPoints(m_arrPathPoints);
+		m_vwMap.addCircle(new CircleOptions()
+			    .center(l)
+			    .radius(CIRCLE_RADIUS) // In meters
+				.fillColor(Color.CYAN)
+				.strokeColor(Color.BLUE));
+	}
+	
+	public void setHomeLocation(Location location) {
+		double lat = location.getLatitude();
+		double lng = location.getLongitude();
+		LatLng l = new LatLng(lat, lng);
+		m_vwMap.addCircle(new CircleOptions()
+			    .center(l)
+			    .radius(CIRCLE_RADIUS) // In meters
+				.fillColor(Color.CYAN)
+				.strokeColor(Color.BLUE));
+	}
+	
+	public void setWorkLocation(Location location) {
+		double lat = location.getLatitude();
+		double lng = location.getLongitude();
+		LatLng l = new LatLng(lat, lng);
 		m_vwMap.addCircle(new CircleOptions()
 			    .center(l)
 			    .radius(CIRCLE_RADIUS) // In meters
