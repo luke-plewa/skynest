@@ -44,6 +44,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	/** The radius of a Circle drawn on the map, in meters. */
 	private static final int CIRCLE_RADIUS = 1;
 	
+	/** Request codes for starting new Activities. */
+	private static final int ENABLE_GPS_REQUEST_CODE = 1;
+	
 	/** Markers for the home and work locations */
 	private Marker home;
 	private Marker work;
@@ -107,20 +110,20 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		);
 	}
 	
-	public void setWorkLocation(Location location) {
-		double lat = location.getLatitude();
-		double lng = location.getLongitude();
-		m_vwMap.addMarker(new MarkerOptions()
-		.position(new LatLng(lat, lng))
-		.title("Work")
-		);
+	@Override
+	public void onActivityResult(int req, int res, Intent i){
+		super.onActivityResult(req, res, i);
+		if(req == ENABLE_GPS_REQUEST_CODE)
+			supportInvalidateOptionsMenu();
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
+		Intent i;
 		switch(item.getItemId()){
-			case R.id.set_work:
-				setWorkLocation(m_locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+			case R.id.menu_enableGPS:
+				i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivityForResult(i, MainActivity.ENABLE_GPS_REQUEST_CODE);
 				break;
 			case R.id.set_home:
 				setHomeLocation(m_locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
