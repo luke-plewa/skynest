@@ -10,6 +10,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -100,29 +101,23 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public void setHomeLocation(Location location) {
 		double lat = location.getLatitude();
 		double lng = location.getLongitude();
-		LatLng l = new LatLng(lat, lng);
-		m_vwMap.addCircle(new CircleOptions()
-			    .center(l)
-			    .radius(CIRCLE_RADIUS) // In meters
-				.fillColor(Color.CYAN)
-				.strokeColor(Color.BLUE));
+		m_vwMap.addMarker(new MarkerOptions()
+		.position(new LatLng(lat, lng))
+		.title("Home")
+		);
 	}
 	
 	public void setWorkLocation(Location location) {
 		double lat = location.getLatitude();
 		double lng = location.getLongitude();
-		LatLng l = new LatLng(lat, lng);
-		m_vwMap.addCircle(new CircleOptions()
-			    .center(l)
-			    .radius(CIRCLE_RADIUS) // In meters
-				.fillColor(Color.CYAN)
-				.strokeColor(Color.BLUE));
+		m_vwMap.addMarker(new MarkerOptions()
+		.position(new LatLng(lat, lng))
+		.title("Work")
+		);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		Intent i;
-		Uri u;
 		switch(item.getItemId()){
 			case R.id.set_work:
 				setWorkLocation(m_locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
