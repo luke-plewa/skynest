@@ -4,8 +4,10 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -16,6 +18,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 
 public class MainActivity extends SherlockFragmentActivity implements LocationListener {
 
@@ -30,6 +33,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	
 	/** Markers for the home and work locations */
 	private double home_lat, home_lng;
+
+	/** The radius of a Circle drawn on the map, in meters. */
+	private static final int CIRCLE_RADIUS = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +68,27 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
     	m_locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
-	@Override
-	public void onLocationChanged(Location location) {
+    @Override
+	public void onLocationChanged(Location arg0) {
+		double lat = arg0.getLatitude();
+		double lng = arg0.getLongitude();
+		LatLng l = new LatLng(lat, lng);
+		m_vwMap.animateCamera(CameraUpdateFactory.newLatLng(l));
+		m_vwMap.addCircle(new CircleOptions()
+			    .center(l)
+			    .radius(CIRCLE_RADIUS) // In meters
+				.fillColor(Color.CYAN)
+				.strokeColor(Color.BLUE));
 	}
 	
 	public void setHomeLocation(Location location) {
-		double home_lat = location.getLatitude();
-		double home_lng = location.getLongitude();
-		m_vwMap.addMarker(new MarkerOptions()
-		.position(new LatLng(home_lat, home_lng))
-		.title("Home")
-		);
+		if (location != null){
+			double home_lat = location.getLatitude();
+			double home_lng = location.getLongitude();
+			m_vwMap.addMarker(new MarkerOptions()
+			.position(new LatLng(home_lat, home_lng))
+			.title("Home"));
+		}
 	}
 	
 	@Override
@@ -90,6 +106,25 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 				return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu){
+		boolean enabled = m_locManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		if(enabled){
+			menu.findItem(R.id.menu_enableGPS).setVisible(false);
+		}
+		else {
+			menu.findItem(R.id.menu_enableGPS).setVisible(true);
+		}
+		return true;
+	}
+	
+	@Override
+	public void onActivityResult(int req, int res, Intent i){
+		super.onActivityResult(req, res, i);
+		if(req == ENABLE_GPS_REQUEST_CODE)
+			supportInvalidateOptionsMenu();
 	}
 
 	@Override
