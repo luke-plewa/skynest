@@ -1,55 +1,35 @@
 package edu.calpoly.ai.skynest;
 
-import java.util.ArrayList;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.Settings;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.Menu;
 
 public class MainActivity extends SherlockFragmentActivity implements LocationListener {
 
 	/** The interactive Google Map fragment. */
 	private GoogleMap m_vwMap;
 	
-	/** The list of locations, each having a latitude and longitude. */
-	private ArrayList<LatLng> m_arrPathPoints;
-	
-	/** The continuous set of lines drawn between points on the map. */
-	private Polyline m_pathLine;
-	
 	/** The Location Manager for the map. Used to obtain location status, etc. */
 	private LocationManager m_locManager;
-
-	/** The radius of a Circle drawn on the map, in meters. */
-	private static final int CIRCLE_RADIUS = 1;
 	
 	/** Request codes for starting new Activities. */
 	private static final int ENABLE_GPS_REQUEST_CODE = 1;
 	
 	/** Markers for the home and work locations */
-	private Marker home;
-	private Marker work;
+	private double home_lat, home_lng;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,58 +43,36 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
         	m_vwMap.setMyLocationEnabled(true);
         	m_vwMap.getUiSettings().setMyLocationButtonEnabled(true);
         	m_vwMap.getUiSettings().setZoomControlsEnabled(true);
-        	m_pathLine = m_vwMap.addPolyline(new PolylineOptions());
-        	m_pathLine.setColor(Color.GREEN);
         }
         initLocationData();
 	}
 	
-	/**
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		MenuInflater inflater = this.getSupportMenuInflater();
+		inflater.inflate(R.menu.main, menu);
 		return true;
 	}
-	*/
 	
 	/**
      * Initializes all Location-related data.
      */
     private void initLocationData() {
     	m_locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-    	m_arrPathPoints = new ArrayList<LatLng>();
     }
 
 	@Override
 	public void onLocationChanged(Location location) {
-		double lat = location.getLatitude();
-		double lng = location.getLongitude();
-		LatLng l = new LatLng(lat, lng);
-		m_arrPathPoints.add(l);
-		m_vwMap.animateCamera(CameraUpdateFactory.newLatLng(l));
-		m_pathLine.setPoints(m_arrPathPoints);
-		m_vwMap.addCircle(new CircleOptions()
-			    .center(l)
-			    .radius(CIRCLE_RADIUS) // In meters
-				.fillColor(Color.CYAN)
-				.strokeColor(Color.BLUE));
 	}
 	
 	public void setHomeLocation(Location location) {
-		double lat = location.getLatitude();
-		double lng = location.getLongitude();
+		double home_lat = location.getLatitude();
+		double home_lng = location.getLongitude();
 		m_vwMap.addMarker(new MarkerOptions()
-		.position(new LatLng(lat, lng))
+		.position(new LatLng(home_lat, home_lng))
 		.title("Home")
 		);
-	}
-	
-	@Override
-	public void onActivityResult(int req, int res, Intent i){
-		super.onActivityResult(req, res, i);
-		if(req == ENABLE_GPS_REQUEST_CODE)
-			supportInvalidateOptionsMenu();
 	}
 	
 	@Override
