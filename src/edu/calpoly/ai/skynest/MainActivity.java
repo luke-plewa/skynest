@@ -16,6 +16,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.widget.Toast;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -43,6 +44,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		setContentView(R.layout.activity_main);
         m_vwMap = ((SupportMapFragment)
         		getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        initLocationData();
         if(m_vwMap != null){
         	m_vwMap.getUiSettings().setRotateGesturesEnabled(true);
         	m_vwMap.getUiSettings().setCompassEnabled(true);
@@ -50,7 +52,6 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
         	m_vwMap.getUiSettings().setMyLocationButtonEnabled(true);
         	m_vwMap.getUiSettings().setZoomControlsEnabled(true);
         }
-        initLocationData();
 	}
 	
 	@Override
@@ -99,6 +100,10 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 				i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 				startActivityForResult(i, MainActivity.ENABLE_GPS_REQUEST_CODE);
 				break;
+			case R.id.menu_disableGPS:
+				i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivityForResult(i, MainActivity.ENABLE_GPS_REQUEST_CODE);
+				break;
 			case R.id.set_home:
 				setHomeLocation(m_locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
 				break;
@@ -113,9 +118,11 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		boolean enabled = m_locManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		if(enabled){
 			menu.findItem(R.id.menu_enableGPS).setVisible(false);
+			menu.findItem(R.id.menu_disableGPS).setVisible(true);
 		}
 		else {
 			menu.findItem(R.id.menu_enableGPS).setVisible(true);
+			menu.findItem(R.id.menu_disableGPS).setVisible(false);
 		}
 		return true;
 	}

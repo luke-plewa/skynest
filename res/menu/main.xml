@@ -7,5 +7,9 @@
     <item android:id="@+id/menu_enableGPS"
         android:title="@string/menuTitle_enableGPS"  
         android:showAsAction="ifRoom" ></item>
+    
+    <item android:id="@+id/menu_disableGPS"
+        android:title="@string/menuTitle_disableGPS"  
+        android:showAsAction="ifRoom" ></item>
 
 </menu>
