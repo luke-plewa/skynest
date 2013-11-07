@@ -61,6 +61,7 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
         	m_vwMap.getUiSettings().setMyLocationButtonEnabled(true);
         	m_vwMap.getUiSettings().setZoomControlsEnabled(true);
         }
+        //retrieveHomeLocation();
 	}
 	
 	@Override
@@ -101,12 +102,16 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
     
     public void retrieveHomeLocation() {
     	SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+    	home_lat = 0;
+    	home_lng = 0;
+    	lat = 0;
+    	lng = 0;
 		if(sp != null && sp.contains(HOME_LAT))
 			home_lat = sp.getLong(HOME_LAT, (long) lat);
 		if(sp != null && sp.contains(HOME_LNG))
 			home_lng = sp.getLong(HOME_LNG, (long) lng);
 		m_vwMap.addMarker(new MarkerOptions()
-		.position(new LatLng(lat, lng))
+		.position(new LatLng(home_lat, home_lng))
 		.title("Home"));
     }
 	
