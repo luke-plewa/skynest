@@ -28,7 +28,9 @@ public class MainActivity extends SherlockFragmentActivity{
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
 			case R.id.menu_maps:
-				startService(new Intent(getApplicationContext(), MapsActivity.class));
+				Intent myIntent = new Intent(getApplicationContext(), MapsActivity.class);
+				myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(myIntent);
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
