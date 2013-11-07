@@ -7,5 +7,6 @@
     <string name="set_home">Set Home Location</string>
     <string name="menuTitle_enableGPS">Enable GPS</string>
     <string name="menuTitle_disableGPS">Disable GPS</string>
+    <string name="menuTitle_maps">Map</string>
 
 </resources>

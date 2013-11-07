@@ -1,15 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
-    <item android:id="@+id/set_home" 
-        android:title="@string/set_home" 
-        android:showAsAction="ifRoom" ></item>
-    
-    <item android:id="@+id/menu_enableGPS"
-        android:title="@string/menuTitle_enableGPS"  
-        android:showAsAction="ifRoom" ></item>
-    
-    <item android:id="@+id/menu_disableGPS"
-        android:title="@string/menuTitle_disableGPS"  
+    <item android:id="@+id/menu_maps"
+        android:title="@string/menuTitle_maps"  
         android:showAsAction="ifRoom" ></item>
 
 </menu>
