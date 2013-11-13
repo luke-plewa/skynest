@@ -9,11 +9,32 @@ import android.os.Bundle;
 import android.content.Intent;
 
 public class MainActivity extends SherlockFragmentActivity{
+	
+	private final static String PROX_ALERT_INTENT = "edu.calpoly.ai.skynest.ProximityAlert";
+	private final static long POINT_RADIUS = 200; // in Meters
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+	}
+	
+	@Override
+	public void onResume() {
+		/*
+		if (homeLocation has not been set) {
+			askUserForHomeLocation();
+			
+			Intent intent = new Intent(PROX_ALERT_INTENT);
+        	PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        	locationManager.addProximityAlert(getHomeLatitude(), getHomeLongitude(),
+            	POINT_RADIUS, -1, proximityIntent);
+            	
+       		IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT); 
+       		registerReceiver(new LocationBroadcastReceiver(), filter);
+		}
+		 */
 	}
 	
 	@Override
