@@ -16,7 +16,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Gravity;
 import android.widget.Toast;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,8 +46,11 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	private double lat, lng;
 	
 	/** SharedPreferences keys */
-	private static final String HOME_LAT = "HOME_LAT";
-	private static final String HOME_LNG = "HOME_LNG";
+	public static final String HOME_LAT = "HOME_LAT";
+	public static final String HOME_LNG = "HOME_LNG";
+	
+	/** Set Home Prompt */
+	public static final String s_setHome = "Please set your home location";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +66,8 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
         	m_vwMap.getUiSettings().setMyLocationButtonEnabled(true);
         	m_vwMap.getUiSettings().setZoomControlsEnabled(true);
         }
-        //retrieveHomeLocation();
+        checkHomeLocation();
+        retrieveHomeLocation();
 	}
 	
 	@Override
@@ -101,36 +107,48 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
     }
     
     public void retrieveHomeLocation() {
-    	SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
-    	home_lat = 0;
-    	home_lng = 0;
-    	lat = 0;
-    	lng = 0;
-		if(sp != null && sp.contains(HOME_LAT))
-			home_lat = sp.getLong(HOME_LAT, (long) lat);
-		if(sp != null && sp.contains(HOME_LNG))
-			home_lng = sp.getLong(HOME_LNG, (long) lng);
-		m_vwMap.addMarker(new MarkerOptions()
-		.position(new LatLng(home_lat, home_lng))
-		.title("Home"));
+    	if (hasHomeLocation()) {
+    		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+			home_lat = sp.getLong(HOME_LAT, (long) 0);
+			home_lng = sp.getLong(HOME_LNG, (long) 0);
+			m_vwMap.addMarker(new MarkerOptions()
+				.position(new LatLng(home_lat, home_lng))
+				.title("Home"));
+    	}
     }
 	
 	public void setHomeLocation(Location location) {
 		if (location != null){
 			home_lat = location.getLatitude();
 			home_lng = location.getLongitude();
-			m_vwMap.addMarker(new MarkerOptions()
-			.position(new LatLng(home_lat, home_lng))
-			.title("Home"));
 		}
 		else {
+			// set to most recent location
 			home_lat = lat;
 			home_lng = lng;
-			m_vwMap.addMarker(new MarkerOptions()
-			.position(new LatLng(home_lat, home_lng))
-			.title("Home"));
 		}
+		m_vwMap.addMarker(new MarkerOptions()
+		.position(new LatLng(home_lat, home_lng))
+		.title("Home"));
 		saveHomeLocation();
+	}
+	
+	private boolean hasHomeLocation(){
+		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		return (sp != null &&
+			sp.contains(MapsActivity.HOME_LAT) &&
+			sp.contains(MapsActivity.HOME_LNG));
+	}
+	
+	private void checkHomeLocation(){
+		if (!hasHomeLocation()) {
+			Toast toast = new Toast(getApplicationContext());
+			toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+			toast.setDuration(Toast.LENGTH_LONG);
+			toast.setText(s_setHome);
+			toast.show();
+		}
+		return;
 	}
 	
 	@Override
@@ -157,7 +175,7 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu){
 		boolean enabled = m_locManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		if(enabled){
+		if (enabled) {
 			menu.findItem(R.id.menu_enableGPS).setVisible(false);
 			menu.findItem(R.id.menu_disableGPS).setVisible(true);
 		}
@@ -190,6 +208,15 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public static void addProximityAlert(long homeLatitude, long homeLongitude,
+			long pointRadius, int i, PendingIntent proximityIntent) {
+		/*if (m_locManager != null){
+			m_locManager.addProximityAlert(homeLatitude, homeLongitude,
+				pointRadius, i, proximityIntent);
+		}*/
 		
 	}
 

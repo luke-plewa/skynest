@@ -6,7 +6,10 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.os.Bundle;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 
 public class MainActivity extends SherlockFragmentActivity{
 	
@@ -21,20 +24,20 @@ public class MainActivity extends SherlockFragmentActivity{
 	
 	@Override
 	public void onResume() {
-		/*
-		if (homeLocation has not been set) {
-			askUserForHomeLocation();
-			
+		super.onResume();
+		if (hasHomeLocation()) {
 			Intent intent = new Intent(PROX_ALERT_INTENT);
         	PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-        	locationManager.addProximityAlert(getHomeLatitude(), getHomeLongitude(),
+        	MapsActivity.addProximityAlert(getHomeLatitude(), getHomeLongitude(),
             	POINT_RADIUS, -1, proximityIntent);
             	
        		IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT); 
        		registerReceiver(new LocationBroadcastReceiver(), filter);
 		}
-		 */
+		else {
+			//startMapsActivity();
+		}
 	}
 	
 	@Override
@@ -49,14 +52,41 @@ public class MainActivity extends SherlockFragmentActivity{
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
 			case R.id.menu_maps:
-				Intent myIntent = new Intent(getApplicationContext(), MapsActivity.class);
-				myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(myIntent);
+				startMapsActivity();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+	
+	private boolean hasHomeLocation(){
+		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		if (sp != null &&
+			sp.contains(MapsActivity.HOME_LAT) &&
+			sp.contains(MapsActivity.HOME_LNG))
+			return true;
+		return false;
+	}
+	
+	private long getHomeLatitude(){
+		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		if(sp != null && sp.contains(MapsActivity.HOME_LAT))
+			return sp.getLong(MapsActivity.HOME_LAT, (long) 0);
+		else return 0;
+	}
+	
+	private long getHomeLongitude(){
+		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		if(sp != null && sp.contains(MapsActivity.HOME_LNG))
+			return sp.getLong(MapsActivity.HOME_LNG, (long) 0);
+		else return 0;
+	}
+	
+	private void startMapsActivity(){
+		Intent myIntent = new Intent(getApplicationContext(), MapsActivity.class);
+		myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(myIntent);
 	}
 
 }
