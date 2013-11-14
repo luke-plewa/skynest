@@ -108,7 +108,7 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
     
     public void retrieveHomeLocation() {
     	if (hasHomeLocation()) {
-    		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+    		SharedPreferences sp = this.getSharedPreferences(MainActivity.PREF_FILE, MODE_PRIVATE);
 			home_lat = sp.getLong(HOME_LAT, (long) 0);
 			home_lng = sp.getLong(HOME_LNG, (long) 0);
 			m_vwMap.addMarker(new MarkerOptions()
@@ -134,7 +134,7 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	}
 	
 	private boolean hasHomeLocation(){
-		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		SharedPreferences sp = this.getSharedPreferences(MainActivity.PREF_FILE, MODE_PRIVATE);
 		return (sp != null &&
 			sp.contains(MapsActivity.HOME_LAT) &&
 			sp.contains(MapsActivity.HOME_LNG));

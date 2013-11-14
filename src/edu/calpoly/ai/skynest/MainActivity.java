@@ -40,7 +40,7 @@ public class MainActivity extends SherlockFragmentActivity{
        		registerReceiver(new LocationBroadcastReceiver(), filter);
 		}
 		else {
-			//startMapsActivity();
+			startMapsActivity();
 		}
 	}
 	
