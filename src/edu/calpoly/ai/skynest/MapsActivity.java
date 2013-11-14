@@ -142,10 +142,8 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	
 	private void checkHomeLocation(){
 		if (!hasHomeLocation()) {
-			Toast toast = new Toast(getApplicationContext());
+			Toast toast = Toast.makeText(getApplicationContext(), s_setHome, Toast.LENGTH_LONG);
 			toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-			toast.setDuration(Toast.LENGTH_LONG);
-			toast.setText(s_setHome);
 			toast.show();
 		}
 		return;
@@ -208,15 +206,6 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	public static void addProximityAlert(long homeLatitude, long homeLongitude,
-			long pointRadius, int i, PendingIntent proximityIntent) {
-		/*if (m_locManager != null){
-			m_locManager.addProximityAlert(homeLatitude, homeLongitude,
-				pointRadius, i, proximityIntent);
-		}*/
 		
 	}
 

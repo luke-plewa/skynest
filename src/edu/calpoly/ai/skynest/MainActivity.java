@@ -40,7 +40,7 @@ public class MainActivity extends SherlockFragmentActivity{
        		registerReceiver(new LocationBroadcastReceiver(), filter);
 		}
 		else {
-			//startMapsActivity();
+			startMapsActivity();
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class MainActivity extends SherlockFragmentActivity{
 	}
 	
 	private boolean hasHomeLocation(){
-		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		SharedPreferences sp = this.getSharedPreferences(PREF_FILE, MODE_PRIVATE);
 		if (sp != null &&
 			sp.contains(MapsActivity.HOME_LAT) &&
 			sp.contains(MapsActivity.HOME_LNG))
