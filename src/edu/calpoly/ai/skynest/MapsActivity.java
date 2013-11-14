@@ -99,7 +99,7 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	}
     
     public void saveHomeLocation() {
-    	SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+    	SharedPreferences sp = this.getSharedPreferences(MainActivity.PREF_FILE, MODE_PRIVATE);
 		Editor e = sp.edit();
 		e.putLong("HOME_LAT", (long) home_lat);
 		e.putLong("HOME_LNG", (long) home_lng);

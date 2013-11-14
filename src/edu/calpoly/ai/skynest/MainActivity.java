@@ -17,6 +17,7 @@ public class MainActivity extends SherlockFragmentActivity{
 	
 	private final static String PROX_ALERT_INTENT = "edu.calpoly.ai.skynest.ProximityAlert";
 	private final static long POINT_RADIUS = 200; // in Meters
+	public final static String PREF_FILE = "Preferences";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +74,14 @@ public class MainActivity extends SherlockFragmentActivity{
 	}
 	
 	private long getHomeLatitude(){
-		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		SharedPreferences sp = this.getSharedPreferences(PREF_FILE, MODE_PRIVATE);
 		if(sp != null && sp.contains(MapsActivity.HOME_LAT))
 			return sp.getLong(MapsActivity.HOME_LAT, (long) 0);
 		else return 0;
 	}
 	
 	private long getHomeLongitude(){
-		SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		SharedPreferences sp = this.getSharedPreferences(PREF_FILE, MODE_PRIVATE);
 		if(sp != null && sp.contains(MapsActivity.HOME_LNG))
 			return sp.getLong(MapsActivity.HOME_LNG, (long) 0);
 		else return 0;
