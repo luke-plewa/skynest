@@ -7,22 +7,35 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends SherlockFragmentActivity{
 	
 	private final static String PROX_ALERT_INTENT = "edu.calpoly.ai.skynest.ProximityAlert";
 	private final static long POINT_RADIUS = 200; // in Meters
 	public final static String PREF_FILE = "Preferences";
+	public SharedPreferences sp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		sp = this.getSharedPreferences(MainActivity.PREF_FILE, MODE_PRIVATE);
+		initLayout();
+	}
+	
+	private void initLayout(){
+		final Button maps_button = (Button) findViewById(R.id.menu_maps);
+		maps_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	startMapsActivity();
+            }
+        });
 	}
 	
 	@Override
@@ -52,20 +65,7 @@ public class MainActivity extends SherlockFragmentActivity{
 		return true;
 	}
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item){
-		switch(item.getItemId()){
-			case R.id.menu_maps:
-				startMapsActivity();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-		return true;
-	}
-	
 	private boolean hasHomeLocation(){
-		SharedPreferences sp = this.getSharedPreferences(PREF_FILE, MODE_PRIVATE);
 		if (sp != null &&
 			sp.contains(MapsActivity.HOME_LAT) &&
 			sp.contains(MapsActivity.HOME_LNG))
@@ -74,14 +74,12 @@ public class MainActivity extends SherlockFragmentActivity{
 	}
 	
 	private long getHomeLatitude(){
-		SharedPreferences sp = this.getSharedPreferences(PREF_FILE, MODE_PRIVATE);
 		if(sp != null && sp.contains(MapsActivity.HOME_LAT))
 			return sp.getLong(MapsActivity.HOME_LAT, (long) 0);
 		else return 0;
 	}
 	
 	private long getHomeLongitude(){
-		SharedPreferences sp = this.getSharedPreferences(PREF_FILE, MODE_PRIVATE);
 		if(sp != null && sp.contains(MapsActivity.HOME_LNG))
 			return sp.getLong(MapsActivity.HOME_LNG, (long) 0);
 		else return 0;

@@ -43,7 +43,7 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	private static final int CIRCLE_RADIUS = 1;
 	
 	/** Last known lat and lng */
-	private double lat, lng;
+	private double recent_lat, recent_lng;
 	
 	/** SharedPreferences keys */
 	public static final String HOME_LAT = "HOME_LAT";
@@ -51,6 +51,8 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	
 	/** Set Home Prompt */
 	public static final String s_setHome = "Please set your home location";
+	
+	SharedPreferences sp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
         	m_vwMap.getUiSettings().setMyLocationButtonEnabled(true);
         	m_vwMap.getUiSettings().setZoomControlsEnabled(true);
         }
+        sp = this.getSharedPreferences(MainActivity.PREF_FILE, MODE_PRIVATE);
         checkHomeLocation();
         retrieveHomeLocation();
 	}
@@ -87,9 +90,9 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 
     @Override
 	public void onLocationChanged(Location arg0) {
-		lat = arg0.getLatitude();
-		lng = arg0.getLongitude();
-		LatLng l = new LatLng(lat, lng);
+    	recent_lat = arg0.getLatitude();
+    	recent_lng = arg0.getLongitude();
+		LatLng l = new LatLng(recent_lat, recent_lng);
 		m_vwMap.animateCamera(CameraUpdateFactory.newLatLng(l));
 		m_vwMap.addCircle(new CircleOptions()
 			    .center(l)
@@ -99,7 +102,6 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	}
     
     public void saveHomeLocation() {
-    	SharedPreferences sp = this.getSharedPreferences(MainActivity.PREF_FILE, MODE_PRIVATE);
 		Editor e = sp.edit();
 		e.putLong("HOME_LAT", (long) home_lat);
 		e.putLong("HOME_LNG", (long) home_lng);
@@ -108,7 +110,6 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
     
     public void retrieveHomeLocation() {
     	if (hasHomeLocation()) {
-    		SharedPreferences sp = this.getSharedPreferences(MainActivity.PREF_FILE, MODE_PRIVATE);
 			home_lat = sp.getLong(HOME_LAT, (long) 0);
 			home_lng = sp.getLong(HOME_LNG, (long) 0);
 			m_vwMap.addMarker(new MarkerOptions()
@@ -123,9 +124,8 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 			home_lng = location.getLongitude();
 		}
 		else {
-			// set to most recent location
-			home_lat = lat;
-			home_lng = lng;
+			home_lat = recent_lat;
+			home_lng = recent_lng;
 		}
 		m_vwMap.addMarker(new MarkerOptions()
 		.position(new LatLng(home_lat, home_lng))
@@ -134,7 +134,6 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	}
 	
 	private boolean hasHomeLocation(){
-		SharedPreferences sp = this.getSharedPreferences(MainActivity.PREF_FILE, MODE_PRIVATE);
 		return (sp != null &&
 			sp.contains(MapsActivity.HOME_LAT) &&
 			sp.contains(MapsActivity.HOME_LNG));
@@ -146,7 +145,6 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 			toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 			toast.show();
 		}
-		return;
 	}
 	
 	@Override
