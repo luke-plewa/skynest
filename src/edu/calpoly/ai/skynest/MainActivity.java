@@ -1,15 +1,17 @@
 package edu.calpoly.ai.skynest;
 
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.location.LocationManager;
+import android.os.Bundle;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-
-import android.os.Bundle;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 
 public class MainActivity extends SherlockFragmentActivity{
 	
@@ -29,7 +31,8 @@ public class MainActivity extends SherlockFragmentActivity{
 			Intent intent = new Intent(PROX_ALERT_INTENT);
         	PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-        	MapsActivity.addProximityAlert(getHomeLatitude(), getHomeLongitude(),
+        	LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        	lm.addProximityAlert(getHomeLatitude(), getHomeLongitude(),
             	POINT_RADIUS, -1, proximityIntent);
             	
        		IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT); 
