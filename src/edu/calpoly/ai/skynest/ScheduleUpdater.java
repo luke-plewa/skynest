@@ -18,13 +18,10 @@ public class ScheduleUpdater extends ScheduleManager {
 	public void updateTime(int dayInt, int timeInt, int value) {
 		int old_value, new_value;
 		
-		loadSchedule();
-		
 		old_value = loaded_schedule.getTime(dayInt, timeInt);
 		new_value = (int) (old_value*(1-NEW_DATA_WEIGHT) + (value*NEW_DATA_WEIGHT));
 		
 		loaded_schedule.setTime(dayInt, timeInt, new_value);
-		saveSchedule();
 	}
 
 	/** updates shared preferences schedule using the time averaging algorithm.

@@ -1,18 +1,16 @@
 package edu.calpoly.ai.skynest;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ScheduleManager {
 	protected Schedule loaded_schedule;
 	SharedPreferences sp;
 	
-	/* constants */
+	/** constants **/
 	private int NUM_DAYS = 7;
+	private int NUM_TIMES = 2;
 
 	public ScheduleManager(SharedPreferences sp) {
 		this.sp = sp;
@@ -54,8 +52,7 @@ public class ScheduleManager {
 	}
 	
 	/** returns specific integer time from the schedule
-	 *  parameters: int slot (0-13 : mon_depart, mon_arrive, tue_depart, ...)
-	 *  			int timeInt (0-1 : departure, arrival) 
+	 *  parameter: 	int slot (0-13 : mon_depart, mon_arrive, tue_depart, ...)
 	 *  returns: 	int (minutes since start of day) **/
 	public int getTimeSlot(int slot) {
 		return this.getTime(slot/2, slot%2);
@@ -79,7 +76,7 @@ public class ScheduleManager {
 	}
 	
 	/** saves the loaded schedule into shared preferences **/
-	protected void saveSchedule() {
+	private void saveSchedule() {
 		Editor e = sp.edit();
     	for(int index=0; index<14; index++) {
     		e.putInt("sched" + index, loaded_schedule.getTime(index/2, index%2));
@@ -88,7 +85,7 @@ public class ScheduleManager {
 	}
 	
 	/** reads shared preferences to refresh the the loaded schedule **/
-	protected void loadSchedule() {
+	private void loadSchedule() {
     	for(int index=0; index<14; index++) {
     		if(sp != null && sp.contains("sched" + index))
     			loaded_schedule.setTime(index/2, index%2, sp.getInt("sched" + index, -1));
@@ -97,60 +94,38 @@ public class ScheduleManager {
 	 
 	
 	
-	class Schedule {
-		public Day mon, tue, wed, thu, fri, sat, sun;
+	protected class Schedule {
+		private Day[] days = new Day[NUM_DAYS];
 		
 		public Schedule() {
-			mon = new Day();
-			tue = new Day();
-			wed = new Day();
-			thu = new Day();
-			fri = new Day();
-			sat = new Day();
-			sun = new Day();
+			int iter;
+			
+			for(iter=0; iter<NUM_DAYS; iter++){
+				days[iter] = new Day();
+			}
 		}
 		
 		public Day getDay(int day){
-			switch(day){
-			case(0):
-				return this.mon;
-			case(1):
-				return this.tue;
-			case(2):
-				return this.wed;
-			case(3):
-				return this.thu;
-			case(4):
-				return this.fri;
-			case(5):
-				return this.sat;
-			case(6):
-				return this.sun;
-			}
-			return null;
+			if(day < 0 || day > NUM_DAYS-1)
+				throw new IndexOutOfBoundsException("day argument has range 0 - " + (NUM_DAYS-1));
+
+			return this.days[day];
 		}
-		
-		public Day setDay(int which_day, Day day_obj){
-			switch(which_day){
-			case(0):
-				this.mon = day_obj;
-			case(1):
-				this.tue = day_obj;
-			case(2):
-				this.wed = day_obj;
-			case(3):
-				this.thu = day_obj;
-			case(4):
-				this.fri = day_obj;
-			case(5):
-				this.sat = day_obj;
-			case(6):
-				this.sun = day_obj;
-			}
-			return null;
+
+		public void setDay(int which_day, Day day_obj){
+			if(day_obj == null)
+				throw new IllegalArgumentException("you cannot set day to null");
+			if(which_day < 0 || which_day > NUM_DAYS-1)
+				throw new IndexOutOfBoundsException("day argument has range 0 - " + (NUM_DAYS-1));
+			
+			this.days[which_day] = day_obj;
 		}
 		
 		public int getTime(int dayInt, int timeInt){
+			if(dayInt < 0 || dayInt > NUM_DAYS-1)
+				throw new IndexOutOfBoundsException("day argument has range 0 - " + (NUM_DAYS-1));
+			if(timeInt < 0 || timeInt > NUM_TIMES-1)
+				throw new IndexOutOfBoundsException("time argument has range 0 - " + (NUM_TIMES-1));
 			
 			if(this.getDay(dayInt) != null){
 				switch(timeInt){
@@ -164,7 +139,11 @@ public class ScheduleManager {
 		}
 		
 		public void setTime(int dayInt, int timeInt, int time_value){
-
+			if(dayInt < 0 || dayInt > NUM_DAYS-1)
+				throw new IndexOutOfBoundsException("day argument has range 0 - " + (NUM_DAYS-1));
+			if(timeInt < 0 || timeInt > NUM_TIMES-1)
+				throw new IndexOutOfBoundsException("time argument has range 0 - " + (NUM_TIMES-1));
+		
 			if(this.getDay(dayInt) == null){
 				this.setDay(dayInt, new Day());
 			}
