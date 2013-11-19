@@ -2,6 +2,8 @@ package edu.calpoly.ai.skynest;
 
 import android.content.SharedPreferences;
 
+/**ScheduleUpdater: Used to update the internal schedule using the averaging
+ * 					algorithm. **/
 public class ScheduleUpdater extends ScheduleManager {
 	/** constants **/
 	double NEW_DATA_WEIGHT = 0.20;
@@ -12,7 +14,7 @@ public class ScheduleUpdater extends ScheduleManager {
 
 	/** updates shared preferences schedule using the time averaging algorithm.
 	 * 	uses constant NEW_DATA_WEIGHT
-	 *  parameters: int dayInt (0-6 : mon, tue, wed, ...)
+	 *  parameters: int dayInt (0-6 : sun, mon, tue, ...)
 	 *  			int timeInt (0-1 : departure, arrival)
 	 *  			int value (0-1440 : minutes since start of day) **/
 	public void updateTime(int dayInt, int timeInt, int value) {
@@ -26,7 +28,7 @@ public class ScheduleUpdater extends ScheduleManager {
 
 	/** updates shared preferences schedule using the time averaging algorithm.
 	 * 	uses constant NEW_DATA_WEIGHT
-	 *  parameters: int slot (0-13 : mon_depart, mon_arrive, tue_depart, ...)
+	 *  parameters: int slot (0-13 : sun_depart, sun_arrive, mon_depart, ...)
 	 *  			int value (0-1440 : minutes since start of day) **/
 	public void updateTimeSlot(int slot, int value) {
 		this.updateTime(slot/2, slot%2, value);

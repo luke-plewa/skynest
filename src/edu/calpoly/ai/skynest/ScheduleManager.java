@@ -3,7 +3,39 @@ package edu.calpoly.ai.skynest;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-
+/**ScheduleManager: Used to initialize the schedule (set schedule values to a 
+ * 					certain time, regardless of the averaging algorithm) and 
+ * 					read the current values from the schedule.
+ * 
+ * Usage:
+ * 
+ * ScheduleManager sm = new ScheduleManager(shared_preferences_obj);
+ * int[] schedule = sm.getScheduleInts(); //returns current schedule as 14 ints
+ * 
+ * //one way of setting times
+ * sm.setTimeSlot(0, 550);  //sun depart
+ * sm.setTimeSlot(1, 1000); //sun arrive
+ * sm.setTimeSlot(2, 550);  //mon depart
+ * sm.setTimeSlot(3, 1000); //mon arrive
+ * sm.setTimeSlot(4, 550);  //tue depart
+ * sm.setTimeSlot(5, 1000); //tue arrive
+ * 
+ * //another way of setting times
+ * sm.setTime(0, 0, 500); //sun depart
+ * sm.setTime(0, 1, 800); //sun arrive
+ * sm.setTime(1, 0, 500); //mon depart
+ * sm.setTime(1, 1, 800); //mon arrive
+ * sm.setTime(2, 0, 500); //tue depart
+ * sm.setTime(2, 1, 800); //tue arrive
+ * 
+ * 
+ * //reading
+ * System.out.println("Sun Depart:" + sm.getTimeSlot(0));
+ * System.out.println("Sun Arrive:" + sm.getTimeSlot(1));
+ * System.out.println("Mon Depart:" + sm.getTimeSlot(2));
+ * System.out.println("Mon Arrive:" + sm.getTimeSlot(3));
+ * 
+ **/
 public class ScheduleManager {
 	protected Schedule loaded_schedule;
 	SharedPreferences sp;
@@ -23,7 +55,7 @@ public class ScheduleManager {
 	}
 
 	/** returns whole schedule as an array of ints 
-	 * 	returns: int[] [mon_depart, mon_arrive, tue_depart, ... **/
+	 * 	returns: int[] [sun_depart, sun_arrive, mon_depart, ... **/
 	public int[] getScheduleInts() {
 		int[] int_schedule = new int[NUM_DAYS*2];
 		int dayInt, timeInt;
@@ -43,7 +75,7 @@ public class ScheduleManager {
 	}
 
 	/** returns specific integer time from the schedule
-	 *  parameters: int dayInt (0-6 : mon, tue, wed, ...)
+	 *  parameters: int dayInt (0-6 : sun, mon, tue, ...)
 	 *  			int timeInt (0-1 : departure, arrival) 
 	 *  returns: 	int (minutes since start of day) **/
 	public int getTime(int dayInt, int timeInt) {
@@ -52,14 +84,14 @@ public class ScheduleManager {
 	}
 	
 	/** returns specific integer time from the schedule
-	 *  parameter: 	int slot (0-13 : mon_depart, mon_arrive, tue_depart, ...)
+	 *  parameter: 	int slot (0-13 : sun_depart, sun_arrive, mon_depart, ...)
 	 *  returns: 	int (minutes since start of day) **/
 	public int getTimeSlot(int slot) {
 		return this.getTime(slot/2, slot%2);
 	}
 	
 	/** sets specific integer time in the schedule 
-	 *  parameters: int dayInt (0-6 : mon, tue, wed, ...)
+	 *  parameters: int dayInt (0-6 : sun, mon, tue, ...)
 	 *  			int timeInt (0-1 : departure, arrival)
 	 *  			int value (0-1440 : minutes since start of day) **/
 	public void setTime(int dayInt, int timeInt, int value) {
@@ -69,7 +101,7 @@ public class ScheduleManager {
 	}
 
 	/** sets specific integer time in the schedule 
-	 *  parameters: int slot (0-13 : mon_depart, mon_arrive, tue_depart, ...)
+	 *  parameters: int slot (0-13 : sun_depart, sun_arrive, mon_depart, ...)
 	 *  			int value (0-1440 : minutes since start of day) **/
 	public void setTimeSlot(int slot, int value) {
 		this.setTime(slot/2, slot%2, value);
@@ -166,6 +198,7 @@ public class ScheduleManager {
 				this.arrival = -1;
 			}
 			
+			@SuppressWarnings("unused")
 			public Day(int arrival, int departure){
 				this.departure = departure;
 				this.arrival = arrival;
