@@ -31,9 +31,17 @@ public class MainActivity extends SherlockFragmentActivity{
 	
 	private void initLayout(){
 		final Button maps_button = (Button) findViewById(R.id.menu_maps);
+		final Button set_temp_button = (Button) findViewById(R.id.button_set_temp);
 		maps_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	startMapsActivity();
+            }
+        });
+		set_temp_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		Intent myIntent = new Intent(getApplicationContext(), SetTemp.class);
+        		myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(myIntent);
             }
         });
 	}

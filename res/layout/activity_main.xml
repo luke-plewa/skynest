@@ -8,4 +8,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/menuTitle_maps" />
+    <Button android:id="@+id/button_set_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_temp" />
 </LinearLayout>
