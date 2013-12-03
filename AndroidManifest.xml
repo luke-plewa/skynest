@@ -67,6 +67,10 @@
             android:name="edu.calpoly.ai.skynest.SetTemp"
             android:label="@string/title_activity_set_temp" >
         </activity>
+        <activity
+            android:name="edu.calpoly.ai.skynest.ThermostatActivity"
+            android:label="@string/title_activity_thermostat" >
+        </activity>
     </application>
 
 </manifest>
