@@ -13,7 +13,7 @@ import android.content.SharedPreferences.Editor;
  * ScheduleManager sm = new ScheduleManager(shared_preferences_obj);
  * int[] schedule = sm.getScheduleInts(); //returns current schedule as 14 ints
  * 
- * //one way of setting times
+ * //one way of initializing times
  * sm.setTimeSlot(0, 550);  //sun depart
  * sm.setTimeSlot(1, 1000); //sun arrive
  * sm.setTimeSlot(2, 550);  //mon depart
@@ -21,13 +21,16 @@ import android.content.SharedPreferences.Editor;
  * sm.setTimeSlot(4, 550);  //tue depart
  * sm.setTimeSlot(5, 1000); //tue arrive
  * 
- * //another way of setting times
+ * //another way of initializing times
  * sm.setTime(0, 0, 500); //sun depart
  * sm.setTime(0, 1, 800); //sun arrive
  * sm.setTime(1, 0, 500); //mon depart
  * sm.setTime(1, 1, 800); //mon arrive
  * sm.setTime(2, 0, 500); //tue depart
  * sm.setTime(2, 1, 800); //tue arrive
+ * 
+ * //one way of updating times
+ * sm.updateTimeSlot(0, 582); //update sun depart
  * 
  * 
  * //reading
@@ -43,9 +46,9 @@ public class ScheduleManager {
 	SharedPreferences sp;
 	
 	/** constants **/
-	private int NUM_DAYS = 7;
-	private int NUM_TIMES = 2;
-	double NEW_DATA_WEIGHT = 0.20;	//new data weighs 20% when averaged w/ old data
+	private final static int    NUM_DAYS = 7;
+	private final static int    NUM_TIMES = 2;
+	private final static double NEW_DATA_WEIGHT = 0.20;	//new data weighs 20% when averaged w/ old data
 
 	public ScheduleManager(SharedPreferences sp) {
 		this.sp = sp;
@@ -145,7 +148,7 @@ public class ScheduleManager {
 	}
 	
 	
-	/* private functions */
+	/* private functions/classes */
 	/** saves the loaded schedule into shared preferences **/
 	private void saveSchedule() {
 		Editor e = sp.edit();
@@ -155,6 +158,7 @@ public class ScheduleManager {
 		e.commit();
 	}
 	
+
 	/** reads shared preferences to refresh the the loaded schedule **/
 	private void loadSchedule() {
 		if(loaded_schedule == null){
@@ -166,6 +170,9 @@ public class ScheduleManager {
     	}
 	}
 	
+	/**TODO: change this from private to something else (like protected/static)
+	 * if someone wants to use a Schedule object externally
+	 **/
 	private class Schedule {
 		private Day[] days = new Day[NUM_DAYS];
 		
