@@ -79,8 +79,12 @@ public class ScheduleManager {
 				dayInt++;
 				timeInt=0;
 			}
-			int_schedule[dayInt*2 + timeInt] = loaded_schedule.getTime(dayInt, timeInt);
-				
+			
+			if(dayInt != NUM_DAYS)
+			{			
+				int_schedule[dayInt*2 + timeInt] = loaded_schedule.getTime(dayInt, timeInt);
+			}
+							
 		}
 		
 		return int_schedule;
@@ -130,12 +134,11 @@ public class ScheduleManager {
 	 *  			int value (0-1440 : minutes since start of day) 
 	 **/
 	public void updateTime(int dayInt, int timeInt, int value) {
-		int old_value, new_value;
+		int	old_value = loaded_schedule.getTime(dayInt, timeInt);		
+		int new_value = (int) ( (double) ( old_value * (1.0-NEW_DATA_WEIGHT) ) +
+							  ( (double) value*NEW_DATA_WEIGHT) );
 		
-		old_value = loaded_schedule.getTime(dayInt, timeInt);
-		new_value = (int) (old_value*(1-NEW_DATA_WEIGHT) + (value*NEW_DATA_WEIGHT));
-		
-		loaded_schedule.setTime(dayInt, timeInt, new_value);
+		this.setTime(dayInt, timeInt, new_value);
 	}
 
 	/** updates shared preferences schedule using the time averaging algorithm.
