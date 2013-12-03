@@ -7,10 +7,46 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ThermostatActivity" >
+    
+    <Button android:id="@+id/button_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menuTitle_main" />
 
     <TextView
+        android:id="@+id/curr_temperature_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/temperature"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:text="@string/curr_temp" />
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/target_temperature"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="102dp"
+        android:text="@string/hello_world" />
+
+    <TextView
+        android:id="@+id/target_temperature_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="176dp"
+        android:text="@string/pref_temp" />
+
+    <TextView
+        android:id="@+id/target_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/target_temperature_label"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
         android:text="@string/hello_world" />
 
 </RelativeLayout>

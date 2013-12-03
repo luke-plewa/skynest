@@ -11,7 +11,9 @@
     <string name="menuTitle_main">Main</string>
     <string name="title_activity_set_temp">Temperature Settings</string>
     <string name="pref_temp">Preferred Temperature</string>
+    <string name="curr_temp">Current Temperature</string>
     <string name="title_activity_thermostat">ThermostatActivity</string>
     <string name="thermostat">Nest Thermostat</string>
+    <string name="fahrenheit">F</string>
 
 </resources>
