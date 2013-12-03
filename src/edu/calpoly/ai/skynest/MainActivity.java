@@ -30,10 +30,22 @@ public class MainActivity extends SherlockFragmentActivity{
 	}
 	
 	private void initLayout(){
+		initButton((Button) findViewById(R.id.button_set_temp), SetTemp.class);
+		initButton((Button) findViewById(R.id.button_thermostat), ThermostatActivity.class);
 		final Button maps_button = (Button) findViewById(R.id.menu_maps);
 		maps_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	startMapsActivity();
+            }
+        });
+	}
+	
+	public void initButton(Button b, final Class<?> c){
+		b.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		Intent myIntent = new Intent(getApplicationContext(), c);
+        		myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(myIntent);
             }
         });
 	}

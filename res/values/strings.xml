@@ -9,7 +9,12 @@
     <string name="menuTitle_disableGPS">Disable GPS</string>
     <string name="menuTitle_maps">Map</string>
     <string name="menuTitle_main">Main</string>
+    <string name="title_activity_set_temp">Temperature Settings</string>
+    <string name="pref_temp">Preferred Temperature</string>
+    <string name="title_activity_thermostat">ThermostatActivity</string>
+    <string name="thermostat">Nest Thermostat</string>
     <string name="title_activity_display_schedule">DisplaySchedule</string>
     <string name="title_activity_set_schedule">SetSchedule</string>
+
 
 </resources>
