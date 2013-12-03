@@ -150,6 +150,11 @@ public class MapsActivity extends SherlockFragmentActivity implements LocationLi
 	public boolean onOptionsItemSelected(MenuItem item){
 		Intent i;
 		switch(item.getItemId()){
+			case R.id.nest:
+		        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+		        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		        startActivity(myIntent);
+				break;
 			case R.id.menu_enableGPS:
 				i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 				startActivityForResult(i, MapsActivity.ENABLE_GPS_REQUEST_CODE);

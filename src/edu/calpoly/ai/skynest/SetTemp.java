@@ -40,7 +40,7 @@ public class SetTemp extends Activity implements OnSeekBarChangeListener {
         });
 		
 		tempField = (TextView)findViewById(R.id.editText2);
-		tempField.setText(Double.toString(temperature));
+		tempField.setText(Double.toString(temperature) + " F");
 		
 		SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar1);
 		seekBar.setProgress((int) temperature);
@@ -63,14 +63,14 @@ public class SetTemp extends Activity implements OnSeekBarChangeListener {
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
 		temperature = seekBar.getProgress();
-		tempField.setText(Double.toString(temperature));
+		tempField.setText(Double.toString(temperature) + " F");
 	}
 
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		temperature = seekBar.getProgress();
 		tm.setPreferedTemp(temperature);
-		tempField.setText(Double.toString(temperature));
+		tempField.setText(Double.toString(temperature) + " F");
 	}
 
 }
