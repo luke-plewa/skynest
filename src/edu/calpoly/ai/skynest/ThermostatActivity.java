@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ThermostatActivity extends Activity {
@@ -40,7 +41,7 @@ public class ThermostatActivity extends Activity {
 	}
 	
 	private void initLayout(){
-		final Button home_button = (Button) findViewById(R.id.button_home);
+		final ImageButton home_button = (ImageButton) findViewById(R.id.button_home);
 		home_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
         		Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);

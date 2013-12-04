@@ -4,6 +4,14 @@
     		  android:orientation="vertical"
     		  android:layout_height="fill_parent"
     		  android:layout_width="fill_parent" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/menuTitle_main"
+        android:src="@drawable/skynest" />
+
     <Button android:id="@+id/button_thermostat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
