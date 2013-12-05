@@ -29,7 +29,7 @@ public class ThermostatActivity extends Activity {
 	private void fillTextViews(){
 		SharedPreferences sp = this.getSharedPreferences(MainActivity.PREF_FILE, MODE_PRIVATE);
 		tm = new TempManager(sp);
-		temperature = tm.getHouseTemp(getTime());
+		temperature = tm.getHouseTemp();
 		
 		double targetTemp = getTargetTemp();
 		
