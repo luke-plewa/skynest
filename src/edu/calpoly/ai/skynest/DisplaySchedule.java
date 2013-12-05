@@ -51,7 +51,7 @@ public class DisplaySchedule extends Activity {
 		int minutes = time % 60;
 		
 		// NOTE: currently in 24hr format.
-		String timeString = String.format(Locale.ENGLISH ,"%2d:%2d", hour, minutes);
+		String timeString = String.format(Locale.ENGLISH ,"%02d:%02d", hour, minutes);
 		
 		view.setText(timeString);
 	}

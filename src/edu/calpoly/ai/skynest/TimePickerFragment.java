@@ -34,6 +34,9 @@ public class TimePickerFragment extends DialogFragment {
 		this.hourOfDay = getArguments().getInt(hourOfDayKey);
 		this.minute = getArguments().getInt(minuteKey);
 		
+		//hourOfDay = (hourOfDay >= 0) ? hourOfDay : 0;
+		//minute = (minute >= 0) ? minute : 0;
+						
 		this.activity = (SetSchedule) activity;
 	}
 }

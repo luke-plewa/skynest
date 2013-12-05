@@ -169,7 +169,7 @@ public class ScheduleManager {
 		}
     	for(int index=0; index<14; index++) {
     		if(sp != null && sp.contains("sched" + index))
-    			loaded_schedule.setTime(index/2, index%2, sp.getInt("sched" + index, -1));
+    			loaded_schedule.setTime(index/2, index%2, sp.getInt("sched" + index, 0));
     	}
 	}
 	
@@ -217,7 +217,7 @@ public class ScheduleManager {
 						return this.getDay(dayInt).arrival;
 				}
 			}
-			return -2;
+			return 0;
 		}
 		
 		public void setTime(int dayInt, int timeInt, int time_value){
@@ -244,8 +244,8 @@ public class ScheduleManager {
 			public int departure, arrival;
 
 			public Day(){
-				this.departure = -1;
-				this.arrival = -1;
+				this.departure = 0;
+				this.arrival = 0;
 			}
 			
 			@SuppressWarnings("unused")

@@ -110,7 +110,7 @@ OnClickListener {
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 		// update the times array and the textview cell in the table
 		times[timeBeingEdited] = hourOfDay * 60 + minute;
-		viewBeingEdited.setText(String.format("%2d:%2d", hourOfDay, minute));
+		viewBeingEdited.setText(String.format("%02d:%02d", hourOfDay, minute));
 	}
 
 	/**
