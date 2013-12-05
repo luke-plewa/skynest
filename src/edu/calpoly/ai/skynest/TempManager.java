@@ -11,6 +11,7 @@ public class TempManager {
 	/** Declare the Shared Pref String and tempNotSet */
 	private static final String PREFERED_TEMP = "PREFERED_TEMP";
 	private static final double TEMP_NOT_SET = -100;
+	private int currentTime;
 	private SharedPreferences sp;
 	
 	/** Constructor makes a new mock nest every time possibly change implementation*/
@@ -36,8 +37,8 @@ public class TempManager {
 	}
 	/** Should this int be a time variable */
 	public double getHouseTemp(int Time) {
-		// call getTemp Function
-		return 0;//dummy for now
+		currentTime = (int)(System.currentTimeMillis()/60000);// call time get minutes
+		return MockThermostat.getTemp(currentTime, Time, getPreferedTemp());//get current temp
 	}
 
 }
