@@ -32,6 +32,8 @@ public class MainActivity extends SherlockFragmentActivity{
 	private void initLayout(){
 		initButton((Button) findViewById(R.id.button_set_temp), SetTemp.class);
 		initButton((Button) findViewById(R.id.button_thermostat), ThermostatActivity.class);
+		initButton((Button) findViewById(R.id.button_set_schedule), SetSchedule.class);
+		initButton((Button) findViewById(R.id.button_display_schedule), DisplaySchedule.class);
 		final Button maps_button = (Button) findViewById(R.id.menu_maps);
 		maps_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

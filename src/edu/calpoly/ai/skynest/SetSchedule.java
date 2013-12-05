@@ -64,6 +64,16 @@ OnClickListener {
 				}
 			}
 		});
+		
+		// attach onCLick to update sched button to update scheduler manager
+		findViewById(R.id.update_sched_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				for (int i = 0; i < times.length; i++) {
+					schedMan.updateTimeSlot(i,  times[i]);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -73,6 +83,7 @@ OnClickListener {
 		// ensure the instructions and submit button are visible
 		findViewById(R.id.set_sched_instructions).setVisibility(View.VISIBLE);
 		findViewById(R.id.set_sched_button).setVisibility(View.VISIBLE);
+		findViewById(R.id.update_sched_button).setVisibility(View.VISIBLE);
 		
 		// set all the times appropriately
 		DisplaySchedule.setTextViewTime((TextView) findViewById(R.id.sunday_departure_time), times[0]);

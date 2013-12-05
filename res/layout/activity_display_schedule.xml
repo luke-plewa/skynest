@@ -303,7 +303,7 @@
       	android:visibility="visible"
         android:layout_below="@+id/tableLayout1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="25dp"
         android:text="Tap any time to change it." />
 
     <Button
@@ -312,7 +312,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/set_sched_instructions"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="Submit Schedule" />
+    
+    <Button
+        android:id="@+id/update_sched_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/set_sched_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Update Schedule" />
 
 </RelativeLayout>

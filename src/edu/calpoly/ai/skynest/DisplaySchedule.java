@@ -27,6 +27,7 @@ public class DisplaySchedule extends Activity {
 		// remove the instructions textview and set sched button
 		findViewById(R.id.set_sched_instructions).setVisibility(View.GONE);
 		findViewById(R.id.set_sched_button).setVisibility(View.GONE);
+		findViewById(R.id.update_sched_button).setVisibility(View.GONE);
 		
 		// set all the times appropriately
 		setTextViewTime((TextView) findViewById(R.id.sunday_departure_time), schedMan.getTimeSlot(0));
