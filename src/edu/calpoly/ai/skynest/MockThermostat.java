@@ -6,7 +6,7 @@ public class MockThermostat {
    private static final double outsideTemp = 50;
    
    // A constant governing how quickly the temperature approches the target temp
-   private static final double C = 0.25;
+   private static final double C = 0.05;
    
    /** Gets the forecasted temperature */
    public static double getTemp(int time, int arrivalTime, double targetTemp) {

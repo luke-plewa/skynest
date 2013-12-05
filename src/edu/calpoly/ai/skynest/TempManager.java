@@ -43,14 +43,20 @@ public class TempManager {
 	 **/
 	public double getHouseTemp() {
 		int Time;
+		Calendar rightNow = Calendar.getInstance();
 		Calendar c = Calendar.getInstance();//get Calendar
-		currentTime = (int)((System.currentTimeMillis()%86400000)/60000);// call time get minutes
+		long offset = rightNow.get(Calendar.ZONE_OFFSET) +
+			    rightNow.get(Calendar.DST_OFFSET);
+
+			long sinceMidnight = (rightNow.getTimeInMillis() + offset) %
+			    (24 * 60 * 60 * 1000);
+		currentTime = (int)((sinceMidnight%86400000)/60000);// call time get minutes
 		
 		/*if((Time = mySchedManager.getTime(c.get(Calendar.DAY_OF_WEEK), 0)) >= currentTime)
 		{
 			Time = mySchedManager.getTime(c.get(Calendar.DAY_OF_WEEK), 1);
 		}*/
-		Time = mySchedManager.getTime(c.get(Calendar.DAY_OF_WEEK), 1); //Always get arrival time
+		Time = mySchedManager.getTime(c.get(Calendar.DAY_OF_WEEK)-1, 1); //Always get arrival time
 		return MockThermostat.getTemp(currentTime, Time, getPreferedTemp());//get current temp
 	}
 

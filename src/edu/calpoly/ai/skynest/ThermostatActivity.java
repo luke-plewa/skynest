@@ -23,6 +23,11 @@ public class ThermostatActivity extends Activity {
 		setContentView(R.layout.activity_thermostat);
 		
 		initLayout();
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
 		fillTextViews();
 	}
 	
