@@ -10,6 +10,9 @@ public class MockThermostat {
    
    /** Gets the forecasted temperature */
    public static double getTemp(int time, int arrivalTime, double targetTemp, boolean arrivalFlag) {
+	   
+	   System.out.println("arrive: " + arrivalTime);
+	   System.out.println("current: " + time);
    
       // If the time is after the arrival time, the nest is on
       if(arrivalFlag)
