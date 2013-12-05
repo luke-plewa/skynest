@@ -52,12 +52,15 @@ public class TempManager {
 			    (24 * 60 * 60 * 1000);
 		currentTime = (int)((sinceMidnight%86400000)/60000);// call time get minutes
 		
-		/*if((Time = mySchedManager.getTime(c.get(Calendar.DAY_OF_WEEK), 0)) >= currentTime)
+		if((Time = mySchedManager.getTime(c.get(Calendar.DAY_OF_WEEK), 0)) >= currentTime)
 		{
 			Time = mySchedManager.getTime(c.get(Calendar.DAY_OF_WEEK), 1);
-		}*/
-		Time = mySchedManager.getTime(c.get(Calendar.DAY_OF_WEEK)-1, 1); //Always get arrival time
-		return MockThermostat.getTemp(currentTime, Time, getPreferedTemp());//get current temp
+			return MockThermostat.getTemp(currentTime, Time, getPreferedTemp(), true);
+		}
+		else
+		{
+			return MockThermostat.getTemp(currentTime, Time, getPreferedTemp(), false);//get current temp
+		}
 	}
 
 }

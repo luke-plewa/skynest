@@ -9,11 +9,20 @@ public class MockThermostat {
    private static final double C = 0.05;
    
    /** Gets the forecasted temperature */
-   public static double getTemp(int time, int arrivalTime, double targetTemp) {
+   public static double getTemp(int time, int arrivalTime, double targetTemp, boolean arrivalFlag) {
    
       // If the time is after the arrival time, the nest is on
-      if (time > arrivalTime) {
-         return targetTemp;
+      if(arrivalFlag)
+      {
+    	  if (time > arrivalTime) {
+    		  return targetTemp;
+          }
+      }
+      else 
+      {
+    	  if (time < arrivalTime) {
+    		  return targetTemp;
+          }
       }
       
       // Produces values close to 0 if we're just before the arrival time
