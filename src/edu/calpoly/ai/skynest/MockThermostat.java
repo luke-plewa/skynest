@@ -6,35 +6,25 @@ public class MockThermostat {
    private static final double outsideTemp = 50;
    
    // A constant governing how quickly the temperature approches the target temp
-   private static final double C = 0.05;
+   private static final double C = 0.0042;
    
    /** Gets the forecasted temperature */
-   public static double getTemp(int time, int arrivalTime, double targetTemp, boolean arrivalFlag) {
-	   
-	   System.out.println("arrive: " + arrivalTime);
-	   System.out.println("current: " + time);
-   
-      // If the time is after the arrival time, the nest is on
-      if(arrivalFlag)
-      {
-    	  if (time > arrivalTime) {
-    		  return targetTemp;
-          }
-      }
-      else 
-      {
-    	  if (time < arrivalTime) {
-    		  return targetTemp;
-          }
+   public static double getTemp(int time, int depTime,
+    int arrTime, double targetTemp) {
+      
+      if (time < depTime || time > arrTime) {
+         return targetTemp;
       }
       
-      // Produces values close to 0 if we're just before the arrival time
-      // and values approaching -1 for times much earlier than the arrival time
-      double tempCoefficient = Math.exp(C * (time - arrivalTime)) - 1;
+      double tempDiff = targetTemp - outsideTemp;
+      int depDiff = depTime - time;
+      int arrDiff = time - arrTime;
       
-      // Calculates a temperature between outside and target temperatures, based
-      // on the time to go before the scheduled arrival time
-      double temp = targetTemp + tempCoefficient * (targetTemp - outsideTemp);
+      double depCo = Math.exp(C * depDiff) - 1;
+      double arrCo = Math.exp(C * arrDiff) - 1;
+      
+      double temp = targetTemp + Math.max(depCo, arrCo) * tempDiff;
+      
       return temp;
    }
 }
