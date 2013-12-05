@@ -44,7 +44,7 @@ public class TempManager {
 	public double getHouseTemp() {
 		int Time;
 		Calendar c = Calendar.getInstance();//get Calendar
-		currentTime = (int)(System.currentTimeMillis()/60000);// call time get minutes
+		currentTime = (int)((System.currentTimeMillis()%86400000)/60000);// call time get minutes
 		
 		/*if((Time = mySchedManager.getTime(c.get(Calendar.DAY_OF_WEEK), 0)) >= currentTime)
 		{
